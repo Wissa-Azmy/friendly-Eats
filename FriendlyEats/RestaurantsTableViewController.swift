@@ -145,25 +145,37 @@ class RestaurantsTableViewController: UIViewController, UITableViewDataSource, U
   }
 
   @IBAction func didTapPopulateButton(_ sender: Any) {
+    
     let words = ["Bar", "Fire", "Grill", "Drive Thru", "Place", "Best", "Spot", "Prime", "Eatin'"]
 
     let cities = Restaurant.cities
     let categories = Restaurant.categories
 
     for _ in 0 ..< 20 {
-      let randomIndexes = (Int(arc4random_uniform(UInt32(words.count))),
-                           Int(arc4random_uniform(UInt32(words.count))))
-      let name = words[randomIndexes.0] + " " + words[randomIndexes.1]
-      let category = categories[Int(arc4random_uniform(UInt32(categories.count)))]
-      let city = cities[Int(arc4random_uniform(UInt32(cities.count)))]
-      let price = Int(arc4random_uniform(3)) + 1
-
-      // Basic writes
-
-      let collection = Firestore.firestore().collection("restaurants")
-
-
+        let randomIndexes = (Int(arc4random_uniform(UInt32(words.count))),
+                             Int(arc4random_uniform(UInt32(words.count))))
+        let name = words[randomIndexes.0] + " " + words[randomIndexes.1]
+        let category = categories[Int(arc4random_uniform(UInt32(categories.count)))]
+        let city = cities[Int(arc4random_uniform(UInt32(cities.count)))]
+        let price = Int(arc4random_uniform(3)) + 1
+        
+        // Basic writes
+        
+        let collection = Firestore.firestore().collection("restaurants")
+        
+        let restaurant = Restaurant(
+            name: name,
+            category: category,
+            city: city,
+            price: price,
+            ratingCount: 0,
+            averageRating: 0
+        )
+        
+        collection.addDocument(data: restaurant.dictionary)
     }
+    
+    
   }
 
   @IBAction func didTapClearButton(_ sender: Any) {
