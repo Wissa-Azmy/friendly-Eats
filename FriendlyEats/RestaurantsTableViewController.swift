@@ -262,6 +262,21 @@ extension RestaurantsTableViewController: FiltersViewControllerDelegate {
     }
 
     // Advanced queries
+    if let category = category, !category.isEmpty {
+      filtered = filtered.whereField("category", isEqualTo: category)
+    }
+
+    if let city = city, !city.isEmpty {
+      filtered = filtered.whereField("city", isEqualTo: city)
+    }
+
+    if let price = price {
+      filtered = filtered.whereField("price", isEqualTo: price)
+    }
+
+    if let sortBy = sortBy, !sortBy.isEmpty {
+      filtered = filtered.order(by: sortBy)
+    }
 
     return filtered
   }
